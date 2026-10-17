@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePlus | Hospital Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon">✚</span>
+                <div>
+                    <h2>CarePlus</h2>
+                    <small>Hospital Management</small>
+                </div>
+            </div>
+
+            <p class="menu-label">MAIN MENU</p>
+
+            <nav>
+                <button class="nav-link active" data-section="dashboard">▦ Dashboard</button>
+                <button class="nav-link" data-section="patients">♙ Patients</button>
+                <button class="nav-link" data-section="doctors">⚕ Doctors</button>
+                <button class="nav-link" data-section="appointments">▣ Appointments</button>
+                <button class="nav-link" data-section="billing">▤ Billing</button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="avatar">A</div>
+                <div>
+                    <strong>Administrator</strong>
+                    <small>Hospital Staff</small>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">HOSPITAL MANAGEMENT SYSTEM</p>
+                    <h1 id="page-title">Dashboard Overview</h1>
+                </div>
+                <div class="topbar-right">
+                    <span class="status-dot"></span>
+                    <span>Local system</span>
+                </div>
+            </header>
+
+            <section id="dashboard" class="page-section">
+                <div class="welcome">
+                    <div>
+                        <p class="eyebrow">CARE WITH CONFIDENCE</p>
+                        <h2>Welcome to CarePlus 👋</h2>
+                        <p>Manage hospital information from one place.</p>
+                    </div>
+                    <span class="welcome-icon">✚</span>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-icon blue">♙</div>
+                        <p>Total Patients</p>
+                        <h2 id="patient-count">0</h2>
+                        <small>Registered patients</small>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon green">⚕</div>
+                        <p>Total Doctors</p>
+                        <h2 id="total-doctors">0</h2>
+                        <small>Doctors added</small>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon purple">▣</div>
+                        <p>Appointments</p>
+                        <h2 id="total-appointments">0</h2>
+                        <small>Appointments recorded</small>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon orange">₹</div>
+                        <p>Total Bills</p>
+                        <h2 id="total-bills">0</h2>
+                        <small>Bills recorded</small>
+                    </article>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Recent Patients</h2>
+                            <p>Latest patient registrations</p>
+                        </div>
+                        <button class="primary-btn" data-go="patients">+ Add Patient</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-patients">
+                                <tr><td colspan="5">Loading patients...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="patients" class="page-section" hidden>
+                <div class="section-heading">
+                    <div>
+                        <h2>Patient Management</h2>
+                        <p>Register patients and manage their records.</p>
+                    </div>
+                    <button class="primary-btn" id="show-patient-form">+ Register Patient</button>
+                </div>
+
+                <div class="panel" id="patient-form-panel" hidden>
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Register New Patient</h2>
+                            <p>Enter the patient's details below.</p>
+                        </div>
+                    </div>
+                    <form id="patient-form">
+                        <div class="form-grid">
+                            <label>Full Name *
+                                <input name="full_name" type="text" maxlength="100"
+                                       placeholder="Enter full name" required>
+                            </label>
+                            <label>Age *
+                                <input name="age" type="number" min="0" max="130"
+                                       placeholder="Enter age" required>
+                            </label>
+                            <label>Gender
+                                <select name="gender">
+                                    <option value="">Select gender</option>
+                                    <option>Female</option>
+                                    <option>Male</option>
+                                    <option>Other</option>
+                                    <option>Prefer not to say</option>
+                                </select>
+                            </label>
+                            <label>Phone
+                                <input name="phone" type="tel" maxlength="20"
+                                       placeholder="Enter phone number">
+                            </label>
+                            <label class="full-width">Address
+                                <textarea name="address" maxlength="255" rows="3"
+                                          placeholder="Enter address"></textarea>
+                            </label>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="secondary-btn" id="cancel-patient">Cancel</button>
+                            <button type="submit" class="primary-btn">Save Patient</button>
+                        </div>
+                        <p id="total-patients" class="message" role="status"></p>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>All Patients</h2>
+                            <p>Patient records stored in MySQL</p>
+                        </div>
+                        <button class="secondary-btn" id="refresh-patients">↻ Refresh</button>
+                    </div>
+                    <div class="search-box">
+                        <input id="patient-search" type="search"
+                               placeholder="Search by patient name or ID...">
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patient-table">
+                                <tr><td colspan="6">Loading patients...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            
+<section id="doctors" hidden>
+    <div class="section-heading">
+        <div>
+            <h2>Doctor Management</h2>
+            <p>Add doctors and view registered doctors.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Register New Doctor</h3>
+
+        <form id="doctor-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="doctor-name">Full Name *</label>
+                    <input
+                        type="text"
+                        id="doctor-name"
+                        name="full_name"
+                        required
+                        maxlength="100"
+                        placeholder="Enter doctor's name"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="doctor-specialization">Specialization</label>
+                    <input
+                        type="text"
+                        id="doctor-specialization"
+                        name="specialization"
+                        maxlength="100"
+                        placeholder="e.g. Cardiologist"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="doctor-phone">Phone</label>
+                    <input
+                        type="tel"
+                        id="doctor-phone"
+                        name="phone"
+                        maxlength="20"
+                        placeholder="Enter phone number"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="doctor-email">Email</label>
+                    <input
+                        type="email"
+                        id="doctor-email"
+                        name="email"
+                        maxlength="100"
+                        placeholder="doctor@example.com"
+                    >
+                </div>
+            </div>
+
+            <button type="submit" id="save-doctor-button">
+                Save Doctor
+            </button>
+
+            <p id="doctors-message" class="message" role="status"></p>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="section-heading">
+            <h3>Registered Doctors</h3>
+            <button type="button" id="refresh-doctors">
+                Refresh
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody id="doctor-table">
+                    <tr>
+                        <td colspan="5">Loading doctors...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+            
+<section id="appointments" hidden>
+    <div class="section-heading">
+        <div>
+            <h2>Appointment Management</h2>
+            <p>Schedule and manage patient appointments.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Book an Appointment</h3>
+
+        <form id="appointment-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="appointment-patient">Select Patient *</label>
+                    <select id="appointment-patient"
+                            name="patient_id" required>
+                        <option value="">Loading patients...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment-doctor">Select Doctor *</label>
+                    <select id="appointment-doctor"
+                            name="doctor_id" required>
+                        <option value="">Loading doctors...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment-date">Appointment Date *</label>
+                    <input type="date"
+                           id="appointment-date"
+                           name="appointment_date"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment-time">Appointment Time *</label>
+                    <input type="time"
+                           id="appointment-time"
+                           name="appointment_time"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment-reason">Reason for Visit</label>
+                    <textarea id="appointment-reason"
+                              name="reason"
+                              maxlength="255"
+                              placeholder="Enter reason for appointment"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" id="save-appointment-button">
+                Book Appointment
+            </button>
+
+            <p id="appointment-message"
+               class="message"
+               role="status"></p>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="section-heading">
+            <h3>All Appointments</h3>
+            <button type="button" id="refresh-appointments">
+                Refresh
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="appointment-table">
+                    <tr>
+                        <td colspan="7">Loading appointments...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+            
+<section id="billing" class="page-section">
+    <div class="section-heading">
+        <div>
+            <h2>Billing Management</h2>
+            <p>Create bills and track patient payments.</p>
+        </div>
+        <button type="button" id="refresh-bills">
+            Refresh Bills
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>Create New Bill</h3>
+
+        <form id="bill-form">
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="bill-patient">Patient *</label>
+                    <select id="bill-patient" required>
+                        <option value="">Select patient</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bill-appointment">
+                        Appointment (optional)
+                    </label>
+                    <select id="bill-appointment">
+                        <option value="">No appointment linked</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bill-amount">Amount (₹) *</label>
+                    <input
+                        type="number"
+                        id="bill-amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Enter amount"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="bill-date">Bill Date *</label>
+                    <input type="date" id="bill-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bill-method">Payment Method</label>
+                    <select id="bill-method">
+                        <option value="">Not selected</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Card">Card</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Insurance">Insurance</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bill-status">Payment Status</label>
+                    <select id="bill-status">
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Partially Paid">Partially Paid</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" id="save-bill-button">
+                Create Bill
+            </button>
+
+            <p id="bill-message" role="status"></p>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Bill Records</h3>
+        <p id="total-bill">0</p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bill ID</th>
+                        <th>Patient</th>
+                        <th>Appointment</th>
+                        <th>Amount</th>
+                        <th>Payment Method</th>
+                        <th>Bill Date</th>
+                        <th>Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody id="bill-table">
+                    <tr>
+                        <td colspan="8">Loading bills...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+            <footer class="footer">
+                CarePlus Hospital Management System · Educational Project
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
