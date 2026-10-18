@@ -1,5 +1,5 @@
 name : Deploy Hospital Managemnet System
-on :
+"on" :
   push :
     branches :
       _main
